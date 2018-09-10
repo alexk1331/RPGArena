@@ -15,7 +15,7 @@ namespace RPGArena
     {
         PlayerFighter currplayer1;
         AIFighter aif;
-        BattlePvE currbattle;
+        Battle currbattle;
 
         string php;
         string aihp;
@@ -28,7 +28,7 @@ namespace RPGArena
             currplayer1 = c;
             aif = new AIFighter(currplayer1.Level);
 
-            currbattle = new BattlePvE(currplayer1, aif);
+            currbattle = new Battle(currplayer1, aif);
 
             atcat.Click += action;
             dodge.Click += action;
@@ -68,11 +68,11 @@ namespace RPGArena
         {
             if(plhp.Text=="x")
             {
-                php = @"/" + currbattle.hpp;
-                aihp = @"/" + currbattle.aihp;
+                php = @"/" + currbattle.Fphp;
+                aihp = @"/" + currbattle.Sphp;
             }
-            plhp.Text ="HP: "+ currbattle.hpp + php;
-            aihplab.Text ="HP: "+ currbattle.aihp + aihp;
+            plhp.Text ="HP: "+ currbattle.Fphp + php;
+            aihplab.Text ="HP: "+ currbattle.Sphp + aihp;
 
             if (pt == 2)
             {
@@ -94,13 +94,13 @@ namespace RPGArena
             if (currbattle.Pt == 2)
             {
                 
-                currbattle.EndMove(butt.Text, AIMind.choseact(aif, 0), currbattle.fP, aif);
+                currbattle.EndMove(butt.Text, AIMind.choseact(aif, 0), currbattle.fp, aif);
 
             }
             else
             {
                
-                currbattle.EndMove(AIMind.choseact(aif, 1), butt.Text,  aif, currbattle.fP);
+                currbattle.EndMove(AIMind.choseact(aif, 1), butt.Text,  aif, currbattle.fp);
 
             }
             pturn = currbattle.Pt;

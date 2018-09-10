@@ -15,7 +15,7 @@ namespace RPGArena
     {
         PlayerFighter pf1;
         PlayerFighter pf2;
-        BattlePvP currbattle;
+        Battle currbattle;
 
         string php;
         string aihp;
@@ -28,7 +28,7 @@ namespace RPGArena
             pf1 = p1;
             pf2 = p2;
 
-            currbattle = new BattlePvP(p1, p2);
+            currbattle = new Battle(p1, p2);
             atcat.Click += action;
             dodge.Click += action;
             block.Click += action;
@@ -106,7 +106,7 @@ namespace RPGArena
                 }
             else
                 {
-                    currbattle.EndMove(butt.Text,"Attack",   currbattle.sp, currbattle.fp);
+                    currbattle.EndMove("Attack", butt.Text, currbattle.sp, currbattle.fp);
                 }
                 pturn = currbattle.Pt;
                 battlelog.Text += "--------------------------------------------------------------" + Environment.NewLine + currbattle.Message;

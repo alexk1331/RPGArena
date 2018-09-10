@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace RPGArena
 {
-    class BattlePvP
+    class Battle
     {
-        public PlayerFighter fp;
-        public PlayerFighter sp;
+        public Fighter fp;
+        public Fighter sp;
         int speeddif;
         int prevturn;
         int durp1;
@@ -18,10 +18,22 @@ namespace RPGArena
         string message;
 
 
-        public BattlePvP(PlayerFighter p1, PlayerFighter p2)
+        public Battle(PlayerFighter p1, PlayerFighter p2)
         {
             fp = new PlayerFighter(p1);
             sp = new PlayerFighter(p2);
+            speeddif = 0;
+            prevturn = 0;
+            durp1 = fp.Durability;
+            durp2 = sp.Durability;
+            battleend = false;
+            message = DateTime.Now.ToString("HH:mm:ss") + ": Battle starts: " + fp.Name + " vs " + sp.Name + Environment.NewLine;
+        }
+
+        public Battle(PlayerFighter p, AIFighter a)
+        {
+            fp = new PlayerFighter(p);
+            sp = a;
             speeddif = 0;
             prevturn = 0;
             durp1 = fp.Durability;
@@ -165,6 +177,40 @@ namespace RPGArena
             {
                 message = message + DateTime.Now.ToString("HH:mm:ss") + ": Winner is " + fp.Name + Environment.NewLine;
             }
+        }
+
+        public int BattleEnd(PlayerFighter player)
+        {
+            message = DateTime.Now.ToString("HH:mm:ss") + "BattleEnded\n" + Environment.NewLine;
+            bool win = true;
+            if (fp.Durability <= 0)
+            {
+                win = false;
+            }
+
+            int win2 = 1;
+            if (fp.Durability <= 0)
+            {
+
+                win2 = 2;
+                if (sp.Durability <= 0)
+                {
+                    message = message + DateTime.Now.ToString("HH:mm:ss") + ": It`s a draw!" + Environment.NewLine;
+                    win2 = 3;
+                }
+                else
+                {
+                    message = message + DateTime.Now.ToString("HH:mm:ss") + ": Winner is " + sp.Name + Environment.NewLine;
+                }
+            }
+            else
+            {
+                message = message + DateTime.Now.ToString("HH:mm:ss") + ": Winner is " + fp.Name + Environment.NewLine;
+            }
+
+            int z = player.expgot(win, sp.Level, durp2 - sp.Durability, durp1 - fp.Durability);
+            player.statist_change(win2);
+            return z;
         }
 
         public void Attack_CountrAttack(Fighter f1, Fighter f2)
